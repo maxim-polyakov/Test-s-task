@@ -1,0 +1,69 @@
+Подключение к API и получение данных Напишите скрипт на Python, который подключается к API и получает данные. Например, используйте публичное API https://jsonplaceholder.typicode.com/posts. Сохраните полученные данные в формате JSON в файл.
+
+import requests
+import json
+
+url = 'https://jsonplaceholder.typicode.com/posts'
+# отправляем запрос на сервер и сразу получаем результат
+data = requests.get(url).json()
+# получаем данные о температуре и о том, как она ощущается
+
+with open("data.json", 'w') as file:
+    json.dump(data, file)
+
+Обработка данных с использованием SQL Представьте, что у вас есть таблица users в базе данных SQLite с полями id, name, и age. Напишите Python-скрипт, который подключается к этой базе данных, выбирает всех пользователей старше 30 лет и выводит их имена и возраст.
+
+import psycopg2
+from sqlalchemy import create_engine
+import pandas as pd
+
+conn_remote = psycopg2.connect('postgres://postgres:gaTResKPJX25@ep-round-paper-091468.us-east-2.aws.neon.tech/BotsMemory')
+engine_remote = create_engine(f'postgresql://postgres:gaTResKPJX25@ep-round-paper-091468.us-east-2.aws.neon.tech/BotsMemory')
+
+select = "select test.name from answer_sets.test where age > 30"
+df = pd.read_sql(select, conn_remote)
+
+Объединение данных из разных источников Напишите скрипт на Python, который объединяет данные из двух источников. Первый источник - это CSV-файл с информацией о продуктах (поля: product_id, product_name). Второй источник - это JSON-файл с данными о продажах (поля: sale_id, product_id, amount). Скрипт должен объединить данные по product_id и вывести итоговую таблицу с информацией о продажах для каждого продукта.
+
+import pandas as pd
+import json
+
+df1 = pd.read_csv("data.csv")
+
+with open('data1.json', 'r') as f:
+  data = json.load(f)
+
+data = str(data)
+
+data = data.replace("'", "|")
+data = data.replace("|","\"").replace("\"test3\":","").replace("[","").replace("]","")
+data = data.replace("}}","}").replace("{ {", "{")
+data
+
+df2 = pd.read_json("data1.json")
+
+df = df2["test3"][0]
+df
+
+d = {'sale_id': [df['sale_id']], 'product_id': [df['product_id']], 'amount':[df['amount']]}
+
+df = pd.DataFrame(data=d)
+df
+
+df_final = pd.concat([df1, df])
+
+df_final
+
+Оптимизация скрипта Дан следующий скрипт на Python для обработки списка чисел. Оптимизируйте его для повышения производительности.
+
+Исходный скрипт
+
+numbers = [i for i in range(1, 1000001)] squares = [] for number in numbers: squares.append(number ** 2)
+
+Оптимизированный скрипт
+
+numbers = [i for i in range(1, 1000001)]
+squares = list(map(lambda x: x * x, numbers))
+
+squares
+
